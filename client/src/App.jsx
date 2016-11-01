@@ -7,7 +7,8 @@ class App extends Component {
     console.log("App constructor")
     super(props)
     // Set the initial state of the component
-    this.state = {contacts: []}
+    this.changeCurrentContact = this.changeCurrentContact.bind(this);
+    this.state = {contacts: [], currentContact: {} }
   }
 
   componentDidMount() {
@@ -20,19 +21,26 @@ class App extends Component {
     .then((contacts) => {
       // set the contacts in the state
       // calls render automatically
-      this.setState({contacts: contacts})
+      this.setState({contacts: contacts, currentContact: contacts[0]})
     })
     .catch((err) => {
       alert("Could not get contacts");
     })
+  }
+  
+  changeCurrentContact(id) {
+    let contact = this.state.contacts.filter(function(c) {        
+      return c.id === id;
+    })[0];
+    this.setState({currentContact: contact});
   }
 
   render() {
     console.log("App render")
     return (
       <div className="wrapper">
-        <Nav contacts={this.state.contacts}/>
-        <Display />
+        <Nav contacts={this.state.contacts} handleClick={this.changeCurrentContact} />
+        <Display contact={this.state.currentContact} />
       </div>
     );
   }

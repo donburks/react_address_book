@@ -16,7 +16,8 @@ class Nav extends Component {
               key={contact.id}
               name={contact.name}
               email={contact.email}
-              contactId={contact.id} />
+              contactId={contact.id} 
+              handleClick={this.props.handleClick} />
           })
           }
         </ul>
